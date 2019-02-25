@@ -1,0 +1,2 @@
+Import-Module ActiveDirectory
+Get-ItemProperty -Path "AD:\CN=*,CN=Trusted Services,CN=RTC Service,CN=Services,CN=Configuration,DC=commcare,DC=local" -Name cn,msRTCSIP-TrustedServerFQDN,msRTCSIP-TrustedServiceType,objectClass,whenChanged | Group-Object -Property msRTCSIP-TrustedServerFQDN,msRTCSIP-TrustedServiceType | Where-Object {$_.Count -gt 1} | Select-Object -ExpandProperty Group | ?{$_.objectClass -eq “msRTCSIP-TrustedService”} | Select cn,msRTCSIP-TrustedServerFQDN,msRTCSIP-TrustedServiceType,whenChanged | ft -AutoSize
